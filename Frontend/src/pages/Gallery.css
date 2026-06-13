@@ -1,0 +1,341 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=DM+Sans:wght@300;400;500&display=swap');
+
+:root {
+  --cream: #f5f0e8;
+  --warm-white: #faf8f4;
+  --stone: #c9bfaf;
+  --taupe: #8b7d6b;
+  --charcoal: #2c2825;
+  --accent: #9b6b4a;
+  --accent-light: #e8d5c4;
+  --font-display: 'Cormorant Garamond', serif;
+  --font-body: 'DM Sans', sans-serif;
+  --sidebar-w: 220px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ── Layout (reuse dashboard sidebar styles) ── */
+.gl-layout {
+  display: flex;
+  min-height: 100vh;
+  background: var(--warm-white);
+  font-family: var(--font-body);
+}
+
+/* Sidebar — same as Dashboard */
+.db-sidebar {
+  width: var(--sidebar-w);
+  background: var(--charcoal);
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 1.25rem;
+  position: fixed;
+  top: 0; left: 0; bottom: 0;
+  z-index: 100;
+  transition: transform 0.3s ease;
+}
+.db-sidebar-logo {
+  font-family: var(--font-display);
+  font-size: 2.2rem;
+  font-weight: 300;
+  color: var(--cream);
+  letter-spacing: 0.1em;
+  margin-bottom: 2.5rem;
+  padding-left: 0.5rem;
+}
+.db-nav { display: flex; flex-direction: column; gap: 4px; flex: 1; }
+.db-nav-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 0.65rem 0.75rem; border-radius: 8px;
+  text-decoration: none; color: var(--stone);
+  font-size: 0.88rem; transition: background 0.2s, color 0.2s;
+}
+.db-nav-item:hover { background: rgba(255,255,255,0.06); color: var(--cream); }
+.db-nav-item.active { background: var(--accent); color: var(--cream); }
+.db-nav-icon { font-size: 1rem; width: 20px; text-align: center; }
+.db-logout {
+  display: flex; align-items: center; gap: 10px;
+  padding: 0.65rem 0.75rem; background: none; border: none;
+  color: var(--taupe); font-family: var(--font-body); font-size: 0.85rem;
+  cursor: pointer; border-radius: 8px; transition: color 0.2s, background 0.2s;
+  width: 100%; text-align: left;
+}
+.db-logout:hover { color: var(--cream); background: rgba(255,255,255,0.06); }
+.db-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.4); z-index: 99;
+}
+.db-topbar {
+  display: flex; align-items: center; gap: 1rem;
+  padding: 1.5rem 0 1.25rem; margin-bottom: 0.5rem;
+}
+.db-hamburger {
+  display: none; background: none; border: none;
+  font-size: 1.3rem; cursor: pointer; color: var(--charcoal);
+}
+.db-topbar-text { flex: 1; }
+.db-topbar-text h1 {
+  font-family: var(--font-display); font-size: 1.9rem;
+  font-weight: 300; color: var(--charcoal); line-height: 1;
+}
+.db-topbar-text p { font-size: 0.82rem; color: var(--taupe); margin-top: 3px; }
+.db-avatar {
+  width: 38px; height: 38px; border-radius: 50%;
+  background: var(--accent-light); color: var(--accent);
+  font-size: 0.9rem; font-weight: 500;
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* ── Main ── */
+.gl-main {
+  margin-left: var(--sidebar-w);
+  flex: 1;
+  padding: 0 2rem 2rem;
+}
+
+/* ── Filters ── */
+.gl-filters {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.gl-filter-btn {
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 500;
+  padding: 0.45rem 1rem;
+  border-radius: 20px;
+  border: 1px solid var(--stone);
+  background: transparent;
+  color: var(--taupe);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.gl-filter-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.gl-filter-btn.active {
+  background: var(--charcoal);
+  border-color: var(--charcoal);
+  color: var(--cream);
+}
+
+/* ── List ── */
+.gl-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.gl-item {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  background: #fff;
+  border: 1px solid rgba(201,191,175,0.35);
+  border-radius: 14px;
+  padding: 1rem 1.25rem;
+  transition: box-shadow 0.2s;
+}
+
+.gl-item:hover {
+  box-shadow: 0 4px 20px rgba(44,40,37,0.08);
+}
+
+/* ── Item image — hover expand ── */
+.gl-item-image-wrap {
+  position: relative;
+  width: 72px;
+  height: 72px;
+  flex-shrink: 0;
+}
+
+.gl-item-image {
+  width: 72px;
+  height: 72px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.gl-item-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.gl-item-image-expanded {
+  position: absolute;
+  top: 50%;
+  right: calc(100% + 16px);
+  transform: translateY(-50%) scale(0.92);
+  width: 180px;
+  height: 240px;
+  border-radius: 14px;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  box-shadow: 0 12px 40px rgba(44,40,37,0.18);
+  z-index: 50;
+}
+
+.gl-item-image-expanded img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.gl-item:hover .gl-item-image-expanded {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(-50%) scale(1);
+}
+
+.gl-item-info {
+  flex: 1;
+}
+
+.gl-item-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+
+.gl-item-top h2 {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 300;
+  color: var(--charcoal);
+}
+
+.gl-tag {
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: var(--accent);
+  background: var(--accent-light);
+  padding: 2px 9px;
+  border-radius: 20px;
+}
+
+.gl-item-date {
+  font-size: 0.78rem;
+  color: var(--stone);
+}
+
+/* ── Actions ── */
+.gl-item-actions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.gl-btn-like, .gl-btn-delete {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  color: #2c2825;
+    border: 1px solid var(--taupe);
+  background: var(--cream);;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.gl-btn-like:hover { border-color: #c0575a; color: #c0575a; }
+.gl-btn-like.liked { border-color: #c0575a; color: #c0575a; background: #fdf0f0; }
+.gl-btn-delete:hover { border-color: var(--taupe); background: var(--cream); }
+
+/* ── Empty state ── */
+.gl-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 4rem;
+  color: var(--stone);
+}
+
+.gl-empty span { font-size: 2.5rem; }
+.gl-empty p { font-size: 0.9rem; }
+
+/* ── Delete Modal ── */
+.gl-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(44,40,37,0.45);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gl-modal {
+  background: var(--warm-white);
+  border-radius: 16px;
+  padding: 2rem;
+  width: 320px;
+  box-shadow: 0 20px 60px rgba(44,40,37,0.2);
+}
+
+.gl-modal h3 {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 300;
+  color: var(--charcoal);
+  margin-bottom: 0.5rem;
+}
+
+.gl-modal p {
+  font-size: 0.83rem;
+  color: var(--taupe);
+  margin-bottom: 1.5rem;
+}
+
+.gl-modal-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.gl-modal-cancel, .gl-modal-confirm {
+  flex: 1;
+  padding: 0.7rem;
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  transition: background 0.2s;
+}
+
+.gl-modal-cancel {
+  background: var(--cream);
+  color: var(--taupe);
+}
+.gl-modal-cancel:hover { background: var(--stone); color: var(--warm-white); }
+
+.gl-modal-confirm {
+  background: #b85450;
+  color: #fff;
+}
+.gl-modal-confirm:hover { background: #9b3c38; }
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .db-sidebar { transform: translateX(-100%); }
+  .db-sidebar.open { transform: translateX(0); }
+  .db-overlay { display: block; }
+  .gl-main { margin-left: 0; padding: 0 1rem 2rem; }
+  .db-hamburger { display: block; }
+  .gl-item-image { width: 56px; height: 56px; }
+}

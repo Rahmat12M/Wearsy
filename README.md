@@ -1,2 +1,1 @@
-# Wearsy
-final project
+# final-projekt-

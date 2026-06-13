@@ -1,0 +1,26 @@
+/* Extra styles for Register page */
+.reg-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.field-group select {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 300;
+  color: var(--charcoal);
+  background: var(--cream);
+  border: 1px solid transparent;
+  border-radius: 6px;
+  padding: 0.85rem 1rem;
+  outline: none;
+  transition: border-color 0.2s, background 0.2s;
+  width: 100%;
+  cursor: pointer;
+}
+
+.field-group select:focus {
+  border-color: var(--accent);
+  background: var(--warm-white);
+}
